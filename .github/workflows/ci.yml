@@ -29,14 +29,8 @@ jobs:
       - name: Install dependencies
         run: mvn clean install -DskipTests
 
-      - name: Run HealthCheck tests
-        run: mvn test -Dtest=tests.src.test.java.br.com.bruno.api.test.healthcheck.**
-
-      - name: Run Contract tests
-        run: mvn test -Dtest=tests.api.contract.**
-
-      - name: Run Functional Tests
-        run: mvn test -Dtest=tests.api.functional.**
+      - name: Run all tests
+        run: mvn test
 
       - name: Upload Allure reports
         if: always()
