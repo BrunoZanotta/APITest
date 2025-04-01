@@ -1,6 +1,8 @@
 package br.com.bruno.api.test.functional;
 
 import br.com.bruno.api.BaseTest;
+import br.com.bruno.api.dataprovider.GetBooksDataProvider;
+import br.com.bruno.api.objects.Books;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
@@ -61,5 +63,19 @@ public class FunctionalGetBooksTest extends BaseTest {
                 body(    "message", is("Route GET:/book not found"),
                 "error", is("Not Found"),
                 "statusCode", is(404));
+    }
+
+    @Test(dataProvider = "getBooksSuccess", dataProviderClass = GetBooksDataProvider.class)
+    public void validateGetFictionBooksTest(Books books) {
+        given().
+            spec(spec).
+                queryParam("genre", books.getGenre()).
+                queryParam("checkedOut", books.getCheckedOut()).
+        when().
+            get("books").
+        then().
+            statusCode(200).
+                body("[0].genre", is(books.getGenre()),
+                    "[0].checkedOut", is(books.getCheckedOut()));
     }
 }
