@@ -1,0 +1,43 @@
+name: CI - Java Maven
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    name: Test Maven
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Config Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+
+      - name: Install dependencies
+        run: mvn clean install -DskipTests
+
+      - name: Run automated tests
+        run: vn test -Pcontract
+
+      - name: Run Functional Tests
+        run: mvn test -Pfunctional
+
+      - name: Upload Allure reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-results
+          path: target/allure-results

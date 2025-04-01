@@ -1,6 +1,6 @@
 package br.com.bruno.api;
 
-import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
+import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -9,7 +9,7 @@ import org.testng.annotations.*;
 import static io.restassured.RestAssured.*;
 
 
-@Listeners(ExtentITestListenerClassAdapter.class)
+@Listeners(AllureTestNg.class)
 public class BaseTest {
 
     public static RequestSpecification spec;
