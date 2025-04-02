@@ -1,0 +1,38 @@
+{
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "yearPublished": {
+      "type": "integer"
+    },
+    "checkedOut": {
+      "type": "boolean"
+    },
+    "isPermanentCollection": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "author",
+    "genre",
+    "yearPublished",
+    "checkedOut",
+    "isPermanentCollection",
+    "createdAt"
+  ]
+}
