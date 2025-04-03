@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.is;
 
 public class FunctionalAddBooksTest extends BaseTest {
 
-    @Test(dataProvider = "addBooksSuccess", dataProviderClass = AddBooksDataProvider.class)
+    @Test(dataProvider = "addBooks", dataProviderClass = AddBooksDataProvider.class)
     public void validateAddProductSuccessTest(Books books) {
         Response response =
 
@@ -32,7 +32,7 @@ public class FunctionalAddBooksTest extends BaseTest {
                 "yearPublished", is(books.getYearPublished()));
     }
 
-    @Test(dataProvider = "addBooksSuccess", dataProviderClass = AddBooksDataProvider.class)
+    @Test(dataProvider = "addBooks", dataProviderClass = AddBooksDataProvider.class)
     public void validateInvalidCredentialsforAddBooksTest(Books books) {
         given().
             spec(spec).
