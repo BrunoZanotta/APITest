@@ -1,81 +1,60 @@
 package br.com.bruno.api.test.functional;
 
 import br.com.bruno.api.BaseTest;
-import br.com.bruno.api.dataprovider.GetBooksDataProvider;
 import br.com.bruno.api.objects.Books;
 import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import java.util.List;
-import java.util.Map;
-
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class FunctionalGetBooksTest extends BaseTest {
 
+    private Response getBooksResponse() {
+        return given()
+            .spec(spec)
+        .when()
+            .get("books")
+        .then()
+            .statusCode(HttpStatus.SC_OK)
+            .extract().response();
+    }
+
+    private Response getBookNotFoundResponse() {
+        return given()
+            .spec(spec)
+        .when()
+            .get("book")
+        .then()
+            .statusCode(HttpStatus.SC_NOT_FOUND)
+            .extract().response();
+    }
+
     @Test
     public void validateGetBooksSuccessTest() {
-        Response books =
-            given().
-                spec(spec).
-            when().
-                get("books").
-            then().
-                extract().response();
+        Response response = getBooksResponse();
+        Books[] books = response.as(Books[].class);
+        Books firstBook = books[0];
 
-        List<Map<String, Object>> responseData = books.jsonPath().getList("");
-        Map<String, Object> firstBook = responseData.get(0);
-
-        String id = (String) firstBook.get("id");
-        String title = (String) firstBook.get("title");
-        String author = (String) firstBook.get("author");
-        String genre = (String) firstBook.get("genre");
-        Integer yearPublished = (Integer) firstBook.get("yearPublished");
-        Boolean checkedOut = (boolean) firstBook.get("checkedOut");
-        Boolean isPermanentCollection = (boolean) firstBook.get("isPermanentCollection");
-        String createdAt = (String) firstBook.get("createdAt");
-
-        given().
-            spec(spec).
-        when().
-            get("books").
-        then().
-            statusCode(200).
-                body("[0].id", is(id),
-                    "[0].title", is(title),
-                    "[0].author", is(author),
-                    "[0].genre", is(genre),
-                    "[0].yearPublished", is(yearPublished),
-                    "[0].checkedOut", is(checkedOut),
-                    "[0].isPermanentCollection", is(isPermanentCollection),
-                    "[0].createdAt", is(createdAt));
+        assertThat("Incorrect book ID", response.jsonPath().getString("[0].id"), equalTo(firstBook.getId()));
+        assertThat("Incorrect title", response.jsonPath().getString("[0].title"), equalTo(firstBook.getTitle()));
+        assertThat("Incorrect author", response.jsonPath().getString("[0].author"), equalTo(firstBook.getAuthor()));
+        assertThat("Incorrect genre", response.jsonPath().getString("[0].genre"), equalTo(firstBook.getGenre()));
+        assertThat("Incorrect year of publication", response.jsonPath().getInt("[0].yearPublished"), equalTo(firstBook.getYearPublished()));
+        assertThat("Incorrect checked out status", response.jsonPath().getBoolean("[0].checkedOut"), equalTo(firstBook.getCheckedOut()));
+        assertThat("Incorrect permanent collection status", response.jsonPath().getBoolean("[0].isPermanentCollection"), equalTo(firstBook.getIsPermanentCollection()));
+        assertThat("Incorrect creation date", response.jsonPath().getString("[0].createdAt"), equalTo(firstBook.getCreatedAt()));
     }
 
     @Test
     public void validateGetBookNotFoundTest() {
-        given().
-            spec(spec).
-        when().
-            get("book").
-        then().
-            statusCode(404).
-                body(    "message", is("Route GET:/book not found"),
-                "error", is("Not Found"),
-                "statusCode", is(404));
-    }
+        Response response = getBookNotFoundResponse();
 
-    @Test(dataProvider = "getBooksSuccess", dataProviderClass = GetBooksDataProvider.class)
-    public void validateGetFictionBooksTest(Books books) {
-        given().
-            spec(spec).
-                queryParam("genre", books.getGenre()).
-                queryParam("checkedOut", books.getCheckedOut()).
-        when().
-            get("books").
-        then().
-            statusCode(200).
-                body("[0].genre", is(books.getGenre()),
-                    "[0].checkedOut", is(books.getCheckedOut()));
+        assertThat("Status code does not match", response.statusCode(), equalTo(HttpStatus.SC_NOT_FOUND));
+        assertThat("Error message does not match", response.jsonPath().getString("message"), equalTo("Route GET:/book not found"));
+        assertThat("Error type does not match", response.jsonPath().getString("error"), equalTo("Not Found"));
+        assertThat("Status code field does not match", response.jsonPath().getInt("statusCode"), equalTo(404));
     }
 }

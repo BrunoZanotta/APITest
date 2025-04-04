@@ -10,12 +10,12 @@ public class DeleteBooksDataProvider {
 
     @DataProvider(name = "deleteBooks")
     public static Object[][] deleteBooks() {
-        Books books = Books.builder().
+        Books requestBook = Books.builder().
                 id(faker.internet().uuid()).
                 build();
 
         return new Object[][] {
-                {books}
+                {requestBook}
         };
     }
 }

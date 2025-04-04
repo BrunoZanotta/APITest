@@ -12,7 +12,7 @@ public class ConfigLoader {
                 FileInputStream file = new FileInputStream("src/main/resources/environment.properties");
                 properties.load(file);
             } catch (IOException e ) {
-                throw new RuntimeException("Falha ao carregar o arquivo de configuração.");
+                throw new RuntimeException("Failed to load the configuration file.");
             }
         }
 

@@ -10,15 +10,15 @@ public class AddBooksDataProvider {
 
     @DataProvider(name = "addBooks")
     public static Object[][] addBooks() {
-        Books books = Books.builder().
+        Books requestBook = Books.builder().
                 title(faker.book().title()).
                 author(faker.artist().name()).
                 genre(faker.book().genre()).
                 yearPublished(faker.number().numberBetween(1950, 2023)).
                 build();
 
-        return new Object[][] {
-                {books}
+        return new Object[][]{
+                {requestBook}
         };
     }
 }

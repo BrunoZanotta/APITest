@@ -36,6 +36,7 @@ build/
 
 ### Allure reports ###
 allure-results
+.allure
 
 ### VS Code ###
 .vscode/
