@@ -15,7 +15,7 @@ public class BaseTest {
     public static RequestSpecification spec;
 
     @BeforeClass
-    public void setUp() {
+    public static void setUp() {
         baseURI = "https://library-api.postmanlabs.com/";
         basePath = "";
         spec = new RequestSpecBuilder()
