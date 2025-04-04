@@ -2,6 +2,7 @@ package br.com.bruno.api.test.contract;
 
 import br.com.bruno.api.BaseTest;
 import br.com.bruno.api.ConfigLoader;
+import br.com.bruno.api.dataprovider.AddBooksDataProvider;
 import br.com.bruno.api.objects.Books;
 import org.testng.annotations.Test;
 
@@ -12,7 +13,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
 public class ContractAddBooksTest extends BaseTest {
 
-    @Test(dataProvider = "addBooks", dataProviderClass = br.com.bruno.api.dataprovider.AddBooksDataProvider.class)
+    @Test(dataProvider = "addBooks", dataProviderClass = AddBooksDataProvider.class)
     public void validateContractAddBooks(Books books) {
         given().
             spec(spec).
