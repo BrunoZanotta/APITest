@@ -2,39 +2,19 @@ package br.com.bruno.api.test.functional;
 
 import br.com.bruno.api.BaseTest;
 import br.com.bruno.api.objects.Books;
+import br.com.bruno.api.services.BookService;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class FunctionalGetBooksTest extends BaseTest {
 
-    private Response getBooksResponse() {
-        return given()
-            .spec(spec)
-        .when()
-            .get("books")
-        .then()
-            .statusCode(HttpStatus.SC_OK)
-            .extract().response();
-    }
-
-    private Response getBookNotFoundResponse() {
-        return given()
-            .spec(spec)
-        .when()
-            .get("book")
-        .then()
-            .statusCode(HttpStatus.SC_NOT_FOUND)
-            .extract().response();
-    }
-
     @Test
     public void validateGetBooksSuccessTest() {
-        Response response = getBooksResponse();
+        Response response = BookService.getBooksResponse();
         Books[] books = response.as(Books[].class);
         Books firstBook = books[0];
 
@@ -50,7 +30,7 @@ public class FunctionalGetBooksTest extends BaseTest {
 
     @Test
     public void validateGetBookNotFoundTest() {
-        Response response = getBookNotFoundResponse();
+        Response response = BookService.getBookNotFoundResponse();
 
         assertThat("Status code does not match", response.statusCode(), equalTo(HttpStatus.SC_NOT_FOUND));
         assertThat("Error message does not match", response.jsonPath().getString("message"), equalTo("Route GET:/book not found"));

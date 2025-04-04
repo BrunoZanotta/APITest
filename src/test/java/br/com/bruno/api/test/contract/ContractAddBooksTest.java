@@ -15,10 +15,10 @@ public class ContractAddBooksTest extends BaseTest {
 
     @Test(dataProvider = "addBooks", dataProviderClass = AddBooksDataProvider.class)
     public void validateContractAddBooks(Books books) {
-        given().
+            given().
             spec(spec).
-                header("api-key", ConfigLoader.getProperty("api-key")).
-                body(books).
+            header("api-key", ConfigLoader.getProperty("api-key")).
+            body(books).
         when().
             post("books").
         then().
