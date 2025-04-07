@@ -46,6 +46,8 @@ jobs:
           curl -slo allurectl https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux
           
           chmod +x allurectl
+          
+          sudo mv allurectl /usr/local/bin/
       
           ./allurectl upload \
           --endpoint=https://api.testops.cloud \
