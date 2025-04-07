@@ -1,0 +1,10 @@
+outputDirectory: target/allure-results
+results:
+  - name: API Test Run
+    framework: allure-testng
+    resultsDirectory: target/allure-results
+    reportUrl: https://api.testops.cloud/project/1/test-cases
+    environment: staging
+    labels:
+      - name: service
+        value: books-api
