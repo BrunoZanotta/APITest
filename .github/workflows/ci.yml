@@ -49,7 +49,7 @@ jobs:
           
           sudo mv allurectl /usr/local/bin/
       
-          ./allurectl upload \
+          allurectl upload \
           --endpoint=https://api.testops.cloud \
           --project-id=1 \
           --results=target/allure-results \
