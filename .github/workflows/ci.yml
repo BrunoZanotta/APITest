@@ -34,11 +34,17 @@ jobs:
           name: allure-results
           path: target/allure-results
 
+      - name: Check allurectl file
+        run: |
+          file allurectl
+
       - name: Upload results to Allure TestOps
+        if: always()
         env:
           ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
         run: |
-          curl -sLo allurectl https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux
+          curl -slo allurectl https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux
+          
           chmod +x allurectl
       
           ./allurectl upload \
