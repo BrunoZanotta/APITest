@@ -1,4 +1,4 @@
-name: CI - Java Maven
+name: Run API Tests and Upload to Allure TestOps
 
 on:
   pull_request:
@@ -33,3 +33,21 @@ jobs:
         with:
           name: allure-results
           path: target/allure-results
+
+      - name: Download allurectl
+        run: |
+            curl -o allurectl https://repo.maven.apache.org/maven2/io/qameta/allurectl/0.24.2/allurectl_0.24.2_linux_amd64
+            chmod +x allurectl
+          
+            sudo mv allurectl /usr/local/bin/allurectl
+
+      - name: upload Allure TestOps
+        env:
+             ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+        run: |
+          ./allurectl upload \
+          --endpoint=https://api.testops.cloud \
+          --project-id=1 \
+          --results=target/allure-results \
+          --launch-name="executed API GitHub" \
+          --token $ALLURE_TOKEN
