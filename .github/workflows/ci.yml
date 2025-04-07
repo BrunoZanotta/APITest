@@ -36,10 +36,8 @@ jobs:
 
       - name: Download allurectl
         run: |
-            curl -o allurectl https://repo.maven.apache.org/maven2/io/qameta/allurectl/0.24.2/allurectl_0.24.2_linux_amd64
-            chmod +x allurectl
-          
-            sudo mv allurectl /usr/local/bin/allurectl
+          curl -o allurectl -L https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux
+          chmod +x allurectl
 
       - name: upload Allure TestOps
         env:
