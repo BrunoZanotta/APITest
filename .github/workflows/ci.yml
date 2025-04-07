@@ -34,15 +34,13 @@ jobs:
           name: allure-results
           path: target/allure-results
 
-      - name: Download allurectl
-        run: |
-          curl -o allurectl -L https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux
-          chmod +x allurectl
-
-      - name: upload Allure TestOps
+      - name: Upload results to Allure TestOps
         env:
-             ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+          ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
         run: |
+          curl -sLo allurectl https://github.com/allure-framework/allurectl/releases/latest/download/allurectl-linux
+          chmod +x allurectl
+      
           ./allurectl upload \
           --endpoint=https://api.testops.cloud \
           --project-id=1 \
