@@ -22,6 +22,28 @@ public class BookService {
             .extract().as(Books.class);
     }
 
+    public static Response createBookAndReturnResponse(Books requestBook) {
+        return given()
+            .spec(spec)
+            .header("api-key", ConfigLoader.getProperty("api-key"))
+            .body(requestBook)
+        .when()
+            .post("books")
+        .then()
+            .extract().response();
+    }
+
+    public static Response addBookBadRequestResponse(Books requestBook) {
+        return given()
+            .spec(spec)
+            .header("api-key", ConfigLoader.getProperty("api-key"))
+            .body(requestBook)
+        .when()
+            .post("books")
+        .then()
+            .extract().response();
+    }
+
     public static Response createBookWithInvalidCredentials(Books requestBook) {
         return given()
             .spec(spec)
@@ -64,5 +86,4 @@ public class BookService {
             .statusCode(HttpStatus.SC_NOT_FOUND)
             .extract().response();
     }
-
 }

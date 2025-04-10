@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class FunctionalDeleteBooksTest extends BaseTest {
 
-    @Test(dataProvider = "addBooks", dataProviderClass = AddBooksDataProvider.class)
+    @Test(dataProvider = "validBooks", dataProviderClass = AddBooksDataProvider.class)
     public void validateDeleteBooksTest(Books requestBook) {
         Books createdBook = BookService.createBook(requestBook);
 

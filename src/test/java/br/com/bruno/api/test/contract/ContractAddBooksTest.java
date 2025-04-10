@@ -1,28 +1,23 @@
 package br.com.bruno.api.test.contract;
 
 import br.com.bruno.api.BaseTest;
-import br.com.bruno.api.ConfigLoader;
 import br.com.bruno.api.dataprovider.AddBooksDataProvider;
 import br.com.bruno.api.objects.Books;
+import br.com.bruno.api.services.BookService;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import java.io.File;
 
-import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 
 public class ContractAddBooksTest extends BaseTest {
 
-    @Test(dataProvider = "addBooks", dataProviderClass = AddBooksDataProvider.class)
-    public void validateContractAddBooks(Books books) {
-            given().
-            spec(spec).
-            header("api-key", ConfigLoader.getProperty("api-key")).
-            body(books).
-        when().
-            post("books").
-        then().
-            body(matchesJsonSchema(new File("src/test/resources /json_schemas/add_books_schema.json")));
-    }
+    @Test(description = "Should validate JSON schema of successfully created book", dataProvider = "validBooks", dataProviderClass = AddBooksDataProvider.class)
+    public void validateContractAddBooks(Books requestBook) {
+        Response response = BookService.createBookAndReturnResponse(requestBook);
 
+        response.then().statusCode(HttpStatus.SC_CREATED).body(matchesJsonSchema(new File("src/test/resources/json_schemas/add_books_schema.json")));
+    }
 }
