@@ -45,3 +45,5 @@ Abra o IntelliJ IDEA, Eclipse ou VS Code e importe como um projeto Maven.
 
 📂 target/surefire-reports – Relatórios padrão do TestNG  
 📂 target/allure-results – Relatórios do Allure Report
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
