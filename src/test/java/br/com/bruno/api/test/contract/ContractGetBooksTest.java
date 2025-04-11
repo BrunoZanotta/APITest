@@ -29,11 +29,11 @@ public class ContractGetBooksTest extends BaseTest {
 
         List<Books> booksList = Arrays.asList(response.as(Books[].class));
 
-        assertThat("The book list must not be empty", booksList, is(not(empty())));
+        assertThat(booksList, is(not(empty())));
 
         for (Books book : booksList) {
-            assertThat("Each book must have an ID", book.getId(), notNullValue());
-            assertThat("Each book must have a title", book.getTitle(), notNullValue());
+            assertThat(book.getId(), notNullValue());
+            assertThat(book.getTitle(), notNullValue());
         }
     }
 }

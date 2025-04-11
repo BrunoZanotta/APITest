@@ -18,22 +18,10 @@ public class BookService {
         .when()
             .post("books")
         .then()
-            .statusCode(HttpStatus.SC_CREATED)
             .extract().as(Books.class);
     }
 
-    public static Response createBookAndReturnResponse(Books requestBook) {
-        return given()
-            .spec(spec)
-            .header("api-key", ConfigLoader.getProperty("api-key"))
-            .body(requestBook)
-        .when()
-            .post("books")
-        .then()
-            .extract().response();
-    }
-
-    public static Response addBookBadRequestResponse(Books requestBook) {
+    public static Response createBookResponse(Books requestBook) {
         return given()
             .spec(spec)
             .header("api-key", ConfigLoader.getProperty("api-key"))
@@ -51,7 +39,6 @@ public class BookService {
         .when()
             .post("books")
         .then()
-            .statusCode(HttpStatus.SC_UNAUTHORIZED)
             .extract().response();
     }
 
@@ -73,7 +60,6 @@ public class BookService {
         .when()
             .get("books")
         .then()
-            .statusCode(HttpStatus.SC_OK)
             .extract().response();
     }
 
@@ -83,7 +69,16 @@ public class BookService {
         .when()
             .get("book")
         .then()
-            .statusCode(HttpStatus.SC_NOT_FOUND)
+            .extract().response();
+    }
+
+    public static Response createBookWithRawBody(String rawJson) {
+        return given()
+            .spec(spec)
+            .body(rawJson)
+        .when()
+            .post("books")
+        .then()
             .extract().response();
     }
 }

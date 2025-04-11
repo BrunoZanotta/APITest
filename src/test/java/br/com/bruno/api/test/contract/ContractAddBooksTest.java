@@ -16,7 +16,7 @@ public class ContractAddBooksTest extends BaseTest {
 
     @Test(description = "Should validate JSON schema of successfully created book", dataProvider = "validBooks", dataProviderClass = AddBooksDataProvider.class)
     public void validateContractAddBooks(Books requestBook) {
-        Response response = BookService.createBookAndReturnResponse(requestBook);
+        Response response = BookService.createBookResponse(requestBook);
 
         response.then().statusCode(HttpStatus.SC_CREATED).body(matchesJsonSchema(new File("src/test/resources/json_schemas/add_books_schema.json")));
     }

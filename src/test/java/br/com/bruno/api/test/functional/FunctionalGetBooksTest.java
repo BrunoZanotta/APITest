@@ -18,6 +18,7 @@ public class FunctionalGetBooksTest extends BaseTest {
         Books[] books = response.as(Books[].class);
         Books firstBook = books[0];
 
+        assertThat( response.statusCode(), equalTo(HttpStatus.SC_OK));
         assertThat("Incorrect book ID", response.jsonPath().getString("[0].id"), equalTo(firstBook.getId()));
         assertThat("Incorrect title", response.jsonPath().getString("[0].title"), equalTo(firstBook.getTitle()));
         assertThat("Incorrect author", response.jsonPath().getString("[0].author"), equalTo(firstBook.getAuthor()));
